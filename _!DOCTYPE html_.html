@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Service</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        section {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 100 4px 2px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        #map {
+            width: 100%;
+            height: 550px; 
+            margin-bottom: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 0px 0;
+            border-radius: 0px;
+            border: 0px solid #ccc;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        button {
+            padding: 15px 70px;
+            font-size: 15px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px auto;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <div id="map"></div>
+        <input type="text" id="destination_to" placeholder="Куда?">
+        <input type="text" id="destination_from" placeholder="Откуда?" readonly>
+        <button onclick="callTaxi()">Вызвать такси</button>
+    </section>
+    <script>
+        function initMap() {
+            var map = new DG.Map('map', {
+                center: [54.4354, 50.8085],
+                zoom: 14
+            });
+        }
+        function callTaxi() {
+            var destinationTo = document.getElementById("destination_to").value;
+            var destinationFrom = document.getElementById("destination_from").value;
+            alert("Calling taxi from " + destinationFrom + " to " + destinationTo);
+        }
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                });
+            } else {
+                alert("Геолокация не поддерживается вашим браузером");
+            }
+        }
+    </script>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script>
+        DG.then(function () {
+            initMap();
+        });
+    </script>
+</body>
+</html>
