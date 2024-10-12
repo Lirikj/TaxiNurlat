@@ -70,7 +70,12 @@ def start_message(message):
     username = message.from_user.username
 
     if user_exists(user_id): 
-        bot.send_message(message.chat.id, f'Привет, {first_name}')
+        markup = types.InlineKeyboardMarkup(row_width=1) 
+        web_app = types.WebAppInfo("https://lirikj.github.io/webapp.github.io/") # ссылка на приложение 
+        web_app_button = types.KeyboardButton('🚖Заказать такси🚖', web_app=web_app )
+        markup.add(web_app_button)
+        bot.send_message(message.chat.id, f'Привет, {first_name}'
+                        '\nдля вызова такси перейди в приложение', reply_markup=markup)
     else: 
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         get_phone = types.KeyboardButton('📞Ваш номер', request_contact=True) 
@@ -89,6 +94,12 @@ def registration_user(message, user_id, username, first_name, last_name):
     else:
         number = bot.send_message(message.chat.id, 'Ошибка: номер телефона не был передан.')
         bot.register_next_step_handler(number, registration_user, user_id, username, first_name, last_name) 
+
+
+@bot.message_handler(commands=['info', 'developers']) 
+def info(message):
+    bot.send_message(message.chat.id, '👨🏼‍💻developer - @Lirikj'
+                                    '\n🧑🏻‍💻developer - @NFCshka')
 
 
 init_db()
